@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEC MARK PORTAL</title>
+</head>
+<body>
+    <center>
+        <h1>KONGU ENGINEERING COLLEGE</h1>
+        <h2>AUTONOMOUS</h2>
+        <h3>ERODE, PERUNDURAI-638060</h3>
+        <br>
+        <hr>
+        <img src="KEC-Logo.png" width="200" height="200" alt="KEC Logo">
+        <br>
+        <h4>STUDENT DETAILS</h4>
+        <table>
+            <tr>
+                <td><label>NAME OF THE STUDENT:</label><input type="text" id="studentName"></td>
+            </tr>
+            <tr>
+                <td><label>ROLL NUMBER:</label><input type="number" id="rollNumber"></td>
+            </tr>
+            <tr>
+                <td><label>SEMESTER:</label><input type="number" id="semester"></td>
+            </tr>
+            <tr>
+                <td><label>E-MAIL:</label><input type="text" id="email"></td>
+            </tr>
+        </table>
+        <br>
+    </center>
+    <hr>
+    <br>
+    <h3>MARKS:</h3>
+    <ol type="A">
+        <li><label>Logic and distributed control system:</label><input type="number" id="m1" class="marks"></li><br>
+        <li><label>Process control:</label><input type="number" id="m2" class="marks"></li><br>
+        <li><label>Environmental science:</label><input type="number" id="m3" class="marks"></li><br>
+        <li><label>3D-Printing:</label><input type="number" id="m4" class="marks"></li><br>
+        <li><label>Digital signal processing:</label><input type="number" id="m5" class="marks"></li><br>
+    </ol>
+    <br><br>
+    <center>
+        <button onclick="calculateSumAndAverage()">CALCULATE SUM & AVERAGE</button>
+    </center>
+    <br><br>
+    <h3>SUM:</h3>
+    <p id="sum"></p>
+    <h3>AVERAGE:</h3>
+    <p id="avg"></p>
+    <br><br>
+    <center>
+        <button onclick="calculateGrades()">CALCULATE GRADE</button>
+    </center>
+    <br><br>
+    <h3>GRADE:</h3>
+    <p>Logic and distributed control system: <span id="grade1"></span></p>
+    <p>Process control: <span id="grade2"></span></p>
+    <p>Environmental science: <span id="grade3"></span></p>
+    <p>3D-Printing: <span id="grade4"></span></p>
+    <p>Digital signal processing: <span id="grade5"></span></p>
+    <br>
+    <center><b>OVER-ALL GRADE: <span id="overallGrade"></span></b></center>
+
+    
+    <script>
+        function calculateSumAndAverage() {
+            var n1 = parseFloat(document.getElementById("m1").value);
+            var n2 = parseFloat(document.getElementById("m2").value);
+            var n3 = parseFloat(document.getElementById("m3").value);
+            var n4 = parseFloat(document.getElementById("m4").value);
+            var n5 = parseFloat(document.getElementById("m5").value);
+
+            // Calculate sum
+            var sum = n1 + n2 + n3 + n4 + n5;
+
+            // Calculate average
+            var average = sum / 5;
+
+            // Display sum and average
+            document.getElementById("sum").textContent = "Total Sum: " + sum;
+            document.getElementById("avg").textContent = "Average: " + average.toFixed(2);
+        }
+
+        function calculateGrades() {
+            var n1 = parseFloat(document.getElementById("m1").value);
+            var n2 = parseFloat(document.getElementById("m2").value);
+            var n3 = parseFloat(document.getElementById("m3").value);
+            var n4 = parseFloat(document.getElementById("m4").value);
+            var n5 = parseFloat(document.getElementById("m5").value);
+
+            // Calculate and display individual grades
+            document.getElementById("grade1").textContent = convertToGrade(n1);
+            document.getElementById("grade2").textContent = convertToGrade(n2);
+            document.getElementById("grade3").textContent = convertToGrade(n3);
+            document.getElementById("grade4").textContent = convertToGrade(n4);
+            document.getElementById("grade5").textContent = convertToGrade(n5);
+
+            // Calculate and display overall grade
+            var overallGrade = convertToGrade((n1 + n2 + n3 + n4 + n5) / 5);
+            document.getElementById("overallGrade").textContent = "Overall Grade: " + overallGrade;
+        }
+
+        function convertToGrade(score) {
+            if (score >= 90 && score <= 100) {
+                return 'A';
+            } else if (score >= 80 && score < 90) {
+                return 'B';
+            } else if (score >= 70 && score < 80) {
+                return 'C';
+            } else if (score >= 60 && score < 70) {
+                return 'D';
+            } else {
+                return 'F';
+            }
+        }
+    </script>
+</body>
+</html>

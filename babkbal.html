@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Balance Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h2 {
+            background-color: darkgreen;
+            color: white;
+            padding: 10px;
+        }
+        table {
+            margin-bottom: 20px;
+        }
+        label {
+            display: inline-block;
+            width: 150px;
+        }
+        input, select, button {
+            margin-bottom: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <div id="transactionPage">
+            <h1>KARUR VYSYA BANK</h1>
+            <h2>CANDIDATE DETAILS</h2>
+            <table>
+                <tr>
+                    <td><label>NAME OF THE CANDIDATE:</label><input type="text" id="studentName"></td>
+                </tr>
+                <tr>
+                    <td><label>ACCOUNT NUMBER:</label><input type="text" id="rollNumber"></td>
+                </tr>
+                <tr>
+                    <td><label>BANK-BRANCH:</label><input type="text" id="semester"></td>
+                </tr>
+                <tr>
+                    <td><label>E-MAIL:</label><input type="text" id="email"></td>
+                </tr>
+            </table>
+            <h2>BANK TRANSACTIONS</h2>
+            <div>
+                <label for="transactionType">Transaction Type:</label>
+                <select id="transactionType">
+                    <option value="deposit">Deposit</option>
+                    <option value="withdrawal">Withdrawal</option>
+                </select>
+                <br><br>
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount">
+                <br><br>
+                <button onclick="addTransaction()">Add Transaction</button>
+                <button onclick="showTransactionsPage()">Show Transactions</button>
+            </div>
+        </div>
+
+        <div id="transactionsListPage" class="hidden">
+            <h1>KARUR VYSYA BANK</h1>
+            <h2>TRANSACTIONS</h2>
+            <ul id="transactionList"></ul>
+            <h2>TOTAL BALANCE: <span id="totalBalance">0</span></h2>
+            <button onclick="backToTransactions()">Back to Add Transactions</button>
+        </div>
+    </center>
+
+    <script>
+        const transactions = [];
+
+        function addTransaction() {
+            const transactionType = document.getElementById('transactionType').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            if (!isNaN(amount) && amount > 0) {
+                transactions.push({ type: transactionType, amount });
+                document.getElementById('amount').value = '';
+                alert('Transaction added successfully!');
+            } else {
+                alert('Please enter a valid amount.');
+            }
+        }
+
+        function showTransactionsPage() {
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+            document.getElementById('transactionPage').classList.add('hidden');
+            document.getElementById('transactionsListPage').classList.remove('hidden');
+            displayTransactions();
+            calculateTotalBalance();
+        }
+
+        function backToTransactions() {
+            document.getElementById('transactionsListPage').classList.add('hidden');
+            document.getElementById('transactionPage').classList.remove('hidden');
+        }
+
+        function displayTransactions() {
+            const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+            const list = document.getElementById('transactionList');
+            list.innerHTML = '';
+            transactions.forEach(transaction => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${transaction.type === 'deposit' ? 'Deposit' : 'Withdrawal'}: $${transaction.amount.toFixed(2)}`;
+                list.appendChild(listItem);
+            });
+        }
+
+        function calculateTotalBalance() {
+            const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+            let totalBalance = 0;
+            transactions.forEach(transaction => {
+                if (transaction.type === 'deposit') {
+                    totalBalance += transaction.amount;
+                } else if (transaction.type === 'withdrawal') {
+                    totalBalance -= transaction.amount;
+                }
+            });
+            document.getElementById('totalBalance').textContent = `$${totalBalance.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
+ 
